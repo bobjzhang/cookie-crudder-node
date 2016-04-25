@@ -1,12 +1,13 @@
 // Base Setup --------------------------------------------------------
-var express     = require('express');
-var morgan      = require('morgan');
-var favicon 		= require('serve-favicon');
 var bodyParser  = require('body-parser');
+var express     = require('express');
+var favicon 		= require('serve-favicon');
 var items       = require('./app/routes/items');
+var mongoose 		= require('mongoose');
+var morgan      = require('morgan');
 var users       = require('./app/routes/users');
-var app         = express();
 
+var app         = express();
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -15,6 +16,11 @@ app.use(bodyParser.urlencoded({
 
 // Favicon Setup -----------------------------------------------------
 app.use(favicon('./app/images/favicon.ico'));
+
+// ORM Mongoose Setup ------------------------------------------------
+// Connect to your MongoDB instance
+// var mongoose = require('mongoose');
+// mongoose.connect('mongodb://<dbuser>:<dbpassword>@<dbUrl');
 
 // Routes ------------------------------------------------------------
 var router = express.Router();
@@ -27,6 +33,18 @@ router.use((req, res, next) => {
 router.get('/', (req, res) => {
     res.json({ message: 'Arrived at the home route' });
 });
+
+// Item Routes
+router.get('/items', items.findAll);
+router.get('/items/:id', items.findById);
+router.get('/items/search/query', items.search);
+
+// User Routes
+router.get('/users', users.findAll);
+router.get('/users/:id', users.findById);
+router.get('/users/:id', users.findByUsername);
+router.get('/users/search/query', users.search);
+router.get('/users/items/:id', users.getUsersItems);
 
 app.use('/api', router);
 

@@ -13,7 +13,13 @@ exports.findById = function(req, res) {
   });
 };
 
-exports.findByUserId = function(req, res) {
+exports.findByUsername = function(req, res) {
+  User.find({username: req.params.username}, (err, user) => {
+    return err ? res.send(err) : res.json(user);
+  });
+};
+
+exports.getUsersItems = function(req, res) {
   User.findById(req.params.id)
   .populate('items')
   .exec(function (err, user) {
