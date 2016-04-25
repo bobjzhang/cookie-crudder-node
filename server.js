@@ -45,7 +45,6 @@ router.delete('/items/:id', items.deleteById);
 // User Routes
 router.get('/users', users.findAll);
 router.get('/users/:id', users.findById);
-router.get('/users/:id', users.findByUsername);
 router.get('/users/search/query', users.search);
 router.get('/users/items/:id', users.getUsersItems);
 router.post('/users', users.addUser);

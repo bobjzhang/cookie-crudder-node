@@ -13,12 +13,6 @@ exports.findById = function(req, res) {
   });
 };
 
-exports.findByUsername = function(req, res) {
-  User.find({username: req.params.username}, (err, user) => {
-    return err ? res.send(err) : res.json(user);
-  });
-};
-
 exports.getUsersItems = function(req, res) {
   User.findById(req.params.id)
   .populate('items')
@@ -48,7 +42,6 @@ exports.addUser = function(req, res) {
     user.save((err, user) => {
       return err ? res.send(err) : res.json(user);
     });
-  });
 }
 
 exports.updateById = function(req, res) {
