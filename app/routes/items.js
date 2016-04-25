@@ -28,3 +28,47 @@ exports.search = function(req, res) {
     return res.status(400).send('Bad request, please check query.');
   }
 };
+
+exports.addItem = function(req, res) {
+  var item = new Item({
+    name: req.body.name,
+    description: req.body.description,
+    ownerId: req.params.userId,
+  });
+
+  item.save((err) => {
+    User.findById(this.ownerId, (err, user) => {
+      if (err) {
+        return res.send(err);
+      } else {
+        user.items.push(this._id);
+        user.save();
+      }
+    });
+    return err ? res.send(err) : res.json(item);
+  });
+}
+
+exports.updateById = function(req, res) {
+  Item.findByIdAndUpdate(req.params.id, req.body, (err, item) => {
+    return err ? res.send(err) : res.json(item);
+  });
+}
+
+exports.deleteById = function(req, res) {
+  Item.findByIdAndRemove(req.params.id, req.body, (err, item) => {
+    User.findById(item.ownerId, (err, user) => {
+      if (err || !user) {
+        return res.send(err);
+      } else {
+        var items = user.items;
+        var index = items.indexOf(item._id);
+        if (index > -1) {
+          items.splice(index, 1);
+          user.save();
+        }
+        return res.json(item);
+      }
+    });
+  });
+}

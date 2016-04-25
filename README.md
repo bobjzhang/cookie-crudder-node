@@ -1,5 +1,5 @@
 # cookie-crudder-nodejs
-Cookie Cutter For CRUD Operations Using Node.js
+Cookie Cutter For CRUD Operations Using Node Express Mongoose and Mongo to play around with.
 
 Build cookie-crudder-node
 ==========================
@@ -17,3 +17,6 @@ var mongoose = require('mongoose');
 mongoose.connect('mongodb://<\dbuser>:<\dbpassword>@<\dbUrl>');
 ```
 And replace 'mongodb://<\dbuser>:<\dbpassword>@<\dbUrl>' with your appropriate MongoDB service
+
+Routes
+======

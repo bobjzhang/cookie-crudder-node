@@ -37,3 +37,38 @@ exports.search = function(req, res) {
     return res.status(400).send('Bad request, please check query.');
   }
 };
+
+exports.addUser = function(req, res) {
+    var user = new User({
+      name: req.body.name,
+      username: req.body.username,
+      items: req.body.items,
+    });
+
+    user.save((err, user) => {
+      return err ? res.send(err) : res.json(user);
+    });
+  });
+}
+
+exports.updateById = function(req, res) {
+  User.findByIdAndUpdate(req.params.id, req.body, (err, user) => {
+    return err ? res.send(err) : res.json(user);
+  });
+}
+
+exports.deleteById = function(req, res) {
+  User.findOneAndRemove({_id: req.params.id}, (err, user) => {
+    return err ? res.send(err) : res.json(user);
+  });
+}
+
+exports.deleteById = function(req, res) {
+  User.findByIdAndRemove(req.params.id, req.body, (err, user) => {
+    var items = user.items;
+    items.forEach((itemId) => {
+      Item.findByIdAndRemove(itemId);
+    });
+    return res.json(user);
+  });
+}

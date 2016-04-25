@@ -38,6 +38,9 @@ router.get('/', (req, res) => {
 router.get('/items', items.findAll);
 router.get('/items/:id', items.findById);
 router.get('/items/search/query', items.search);
+router.post('/items/:userId', items.addItem);
+router.put('/items/:id', items.updateById);
+router.delete('/items/:id', items.deleteById);
 
 // User Routes
 router.get('/users', users.findAll);
@@ -45,6 +48,9 @@ router.get('/users/:id', users.findById);
 router.get('/users/:id', users.findByUsername);
 router.get('/users/search/query', users.search);
 router.get('/users/items/:id', users.getUsersItems);
+router.post('/users', users.addUser);
+router.put('/users/:id', users.updateById);
+router.delete('/users/:id', users.deleteById);
 
 app.use('/api', router);
 
